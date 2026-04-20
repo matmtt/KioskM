@@ -9,8 +9,7 @@ workflows:
     scripts:
       - npm install
       - ./node_modules/.bin/cap sync ios
-      - cd ios/App
-      - xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO build
+      - xcodebuild -workspace ios/App/App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO build
 
     artifacts:
       - ios/App/build/**/*.app
