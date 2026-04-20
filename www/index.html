@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+html,body,#frame{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000}
+#frame{border:0}
+#pwd{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65)}
+#box{background:#fff;padding:20px;border-radius:12px;min-width:260px}
+input{font-size:24px;width:100%}
+</style>
+</head>
+<body>
+<iframe id="frame"></iframe>
+<div id="pwd"><div id="box"><input id="pin" type="password" inputmode="numeric" maxlength="10"></div></div>
+<script>
+const cfg=JSON.parse(localStorage.getItem('kioskm')||'{}');
+const state={url:cfg.url||'https://mateusadv.com/kiosk',pass:cfg.pass||'0000'};
+frame.src=state.url;
+let taps=[]; let timer=null;
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('gesturestart',e=>e.preventDefault());
+document.addEventListener('dblclick',e=>e.preventDefault());
+document.addEventListener('touchstart',e=>{
+ const t=e.touches[0]; const x=innerWidth/2,y=innerHeight/2;
+ const dx=Math.abs(t.clientX-x),dy=Math.abs(t.clientY-y);
+ if(dx<80&&dy<80){ const now=Date.now(); taps=taps.filter(v=>now-v<1500); taps.push(now); if(taps.length>=5) openPwd(); }
+},{passive:true});
+function openPwd(){ pwd.style.display='flex'; pin.value=''; pin.focus(); clearTimeout(timer); timer=setTimeout(closePwd,30000); }
+function closePwd(){ pwd.style.display='none'; }
+pin.addEventListener('keydown',e=>{ if(e.key==='Enter'){ if(pin.value===state.pass){ closePwd(); alert('Admin liberado'); } else closePwd(); }});
+</script>
+</body>
+</html>
