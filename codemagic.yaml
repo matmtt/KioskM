@@ -1,6 +1,7 @@
 workflows:
   ios-build:
     name: KioskM iOS Build
+
     environment:
       xcode: latest
       node: latest
@@ -9,12 +10,7 @@ workflows:
       - npm install
       - ./node_modules/.bin/cap sync ios
       - cd ios/App
-      - xcodebuild -workspace App.xcworkspace \
-          -scheme App \
-          -sdk iphoneos \
-          -configuration Release \
-          CODE_SIGNING_ALLOWED=NO \
-          build
+      - xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO build
 
     artifacts:
       - ios/App/build/**/*.app
