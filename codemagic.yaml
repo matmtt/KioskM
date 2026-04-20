@@ -9,20 +9,18 @@ workflows:
     scripts:
       - |
         set -ex
-        node -v
-        npm -v
         npm install
-        ls -la node_modules/@capacitor || true
         npx cap add ios
-        ls -la ios || true
-        ls -la ios/App || true
         npx cap sync ios
-        ls -la ios/App
         cd ios/App
-        pod install --repo-update
-        ls -la
-        xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO build
+        xcodebuild \
+          -project App.xcodeproj \
+          -scheme App \
+          -sdk iphoneos \
+          -configuration Release \
+          -derivedDataPath build \
+          CODE_SIGNING_ALLOWED=NO \
+          build
 
     artifacts:
-      - ios/App/build/**/*.app
-      - ios/App/build/**/*.ipa
+      - ios/App/build/Build/Products/Release-iphoneos/*.app
