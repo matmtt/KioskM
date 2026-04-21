@@ -12,6 +12,21 @@ workflows:
         npm install
         npx cap add ios
         npx cap sync ios
+        
+        PLIST=ios/App/App/Info.plist
+        
+        # Fullscreen + status bar oculta
+        plutil -replace UIStatusBarHidden -bool YES $PLIST
+        plutil -replace UIViewControllerBasedStatusBarAppearance -bool NO $PLIST
+        plutil -replace UIRequiresFullScreen -bool YES $PLIST
+        
+        # Trava orientação em retrato
+        plutil -replace UISupportedInterfaceOrientations -json '["UIInterfaceOrientationPortrait"]' $PLIST
+        plutil -replace "UISupportedInterfaceOrientations~ipad" -json '["UIInterfaceOrientationPortrait"]' $PLIST
+        
+        # Desabilita multitarefa (split view, slide over)
+        plutil -replace UIRequiresFullScreen -bool YES $PLIST
+        
         cd ios/App
         xcodebuild \
           -project App.xcodeproj \

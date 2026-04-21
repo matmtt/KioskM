@@ -1,5 +1,20 @@
 {
   "appId": "com.kioskm.app",
   "appName": "KioskM",
-  "webDir": "www"
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "allowsLinkPreview": false,
+    "handleApplicationNotifications": false,
+    "overrideUserAgent": null,
+    "backgroundColor": "#000000",
+    "limitsNavigationsToAppBoundDomains": false,
+    "preferredContentMode": "mobile",
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {},
+  "server": {
+    "iosScheme": "capacitor"
+  }
 }
